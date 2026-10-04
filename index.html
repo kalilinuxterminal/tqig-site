@@ -27,15 +27,15 @@
   canvas#warp{position:absolute;inset:0}
   #main{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;filter:blur(12px);transform:translateY(14px);transition:all .9s}
   #main.show{opacity:1;filter:none;transform:none}
-  .card{width:min(440px,94vw);background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:38px 30px 22px;text-align:center;backdrop-filter:blur(22px);box-shadow:0 30px 90px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.12);transform-style:preserve-3d;transition:transform .2s;position:relative;overflow:hidden}
+  .card{width:min(390px,90vw);background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:30px 26px 20px;text-align:center;backdrop-filter:blur(22px);box-shadow:0 30px 90px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.12);transform-style:preserve-3d;transition:transform .2s;position:relative;overflow:hidden}
   .card:before{content:'';position:absolute;top:0;left:-60%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.09),transparent);transform:skewX(-20deg);animation:shine 5s infinite}
   @keyframes shine{0%{left:-60%}60%,100%{left:130%}}
-  .avatar-wrap{position:relative;width:118px;height:118px;margin:0 auto 14px}
+  .avatar-wrap{position:relative;width:100px;height:100px;margin:0 auto 12px}
   .avatar-wrap:before{content:'';position:absolute;inset:-4px;border-radius:50%;background:conic-gradient(from 0deg,#fff,#333,#fff,#333,#fff);animation:spin 4s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
   .avatar{position:absolute;inset:4px;border-radius:50%;background:#0a0a0a url('pfp.png') center/cover;overflow:hidden}
   .status{position:absolute;bottom:8px;right:8px;width:22px;height:22px;background:#22c55e;border:3px solid #000;border-radius:50%;box-shadow:0 0 12px #22c55e}
-  h1{font-size:33px;font-weight:900;letter-spacing:1px;background:linear-gradient(180deg,#fff 30%,#999);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+  h1{font-size:29px;font-weight:900;letter-spacing:1px;background:linear-gradient(180deg,#fff 30%,#999);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
   .badge{display:inline-block;font-size:13px;background:#fff;color:#000;border-radius:50%;width:20px;height:20px;line-height:20px;margin-left:6px;vertical-align:middle}
   .pills{display:flex;justify-content:center;gap:8px;margin-top:8px;flex-wrap:wrap}
   .pill{font-size:11px;border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:4px 12px;color:#ccc;background:rgba(255,255,255,.05)}
@@ -66,6 +66,21 @@
   #curRing{display:none}
   @media(hover:hover){body,a,button,input{cursor:none}}
   @media(hover:none){#cur,#trail{display:none}}
+  @media(max-width:520px){
+    #main{padding:12px}
+    .card{width:min(320px,84vw);padding:22px 16px 14px;border-radius:20px}
+    .avatar-wrap{width:74px;height:74px;margin-bottom:10px}
+    h1{font-size:23px}
+    .badge{width:17px;height:17px;line-height:17px;font-size:11px}
+    .pill{font-size:10px;padding:3px 10px}
+    .bio{font-size:12px;margin:10px 0 2px}
+    .location{font-size:11px;margin-bottom:12px}
+    .links{margin:10px 0 6px}
+    .icon{width:40px;height:40px}
+    a.btn{padding:10px 12px;font-size:13px;margin:7px 0}
+    .foot{font-size:11px;margin-top:10px}
+    #volWrap{padding:6px 10px}#vol{width:90px}
+  }
 </style>
 </head>
 <body>
