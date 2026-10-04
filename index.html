@@ -19,12 +19,12 @@
   .grain{position:fixed;inset:0;opacity:.07;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
   #bgvid{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.5);z-index:0}
   canvas#stars{position:fixed;inset:0;pointer-events:none;opacity:.9;z-index:1}
-  .quote{margin:14px 0 2px;font-size:12px;line-height:1.7;color:#cfcfcf;font-style:italic;border-top:1px solid rgba(255,255,255,.14);border-bottom:1px solid rgba(255,255,255,.14);padding:12px 6px}
-  .quote b{color:#fff;font-weight:700}
-  canvas#qrain{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.55}
+  #typed{background:linear-gradient(100deg,#777 30%,#fff 50%,#777 70%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 3.2s linear infinite;display:inline-block}
+  @keyframes shimmer{to{background-position:220% center}}
+  canvas#qrain{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.85}
   canvas#trail{position:fixed;inset:0;pointer-events:none;z-index:60}
   #glow{position:fixed;width:300px;height:300px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);transform:translate(-50%,-50%);z-index:3}
-  #enter{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;background:rgba(0,0,0,.68);backdrop-filter:blur(16px);cursor:pointer;transition:opacity .5s}
+  #enter{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;background:#000;cursor:pointer;transition:opacity .5s}
   #enter.hide{opacity:0;pointer-events:none}
   #enter .logo{font-size:46px;font-weight:900;letter-spacing:8px;background:linear-gradient(180deg,#fff 20%,#777);-webkit-background-clip:text;background-clip:text;color:transparent;animation:glow 2.4s ease-in-out infinite}
   @keyframes glow{0%,100%{filter:drop-shadow(0 0 6px rgba(255,255,255,.35))}50%{filter:drop-shadow(0 0 22px rgba(255,255,255,.75))}}
@@ -34,7 +34,7 @@
   @keyframes pulse{0%,100%{opacity:.65}50%{opacity:1}}
   #main{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;filter:blur(12px);transform:translateY(14px);transition:all .9s}
   #main.show{opacity:1;filter:none;transform:none}
-  .card{width:min(390px,90vw);background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:30px 26px 20px;text-align:center;backdrop-filter:blur(26px);box-shadow:0 30px 90px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.12);transform-style:preserve-3d;transition:transform .2s;position:relative;overflow:hidden}
+  .card{width:min(390px,90vw);background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:30px 26px 20px;text-align:center;backdrop-filter:blur(26px);box-shadow:0 30px 90px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.12);transform-style:preserve-3d;transition:transform .2s;position:relative;overflow:hidden}
   .card:before{content:'';position:absolute;top:0;left:-60%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.09),transparent);transform:skewX(-20deg);animation:shine 5s infinite}
   @keyframes shine{0%{left:-60%}60%,100%{left:130%}}
   .avatar-wrap{position:relative;width:100px;height:100px;margin:0 auto 12px}
@@ -64,31 +64,23 @@
   .eq i:nth-child(1){height:60%}.eq i:nth-child(2){height:100%;animation-delay:.15s}.eq i:nth-child(3){height:40%;animation-delay:.3s}
   @keyframes eq{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1)}}
   .foot{display:flex;justify-content:space-between;margin-top:16px;font-size:12px;color:#888}
-  #soundToggle{display:none}
-  #volWrap{position:fixed;top:16px;right:16px;z-index:10;display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:8px 14px;backdrop-filter:blur(10px)}
-  #muteBtn{background:none;border:0;color:#fff;font-size:0;cursor:pointer;display:flex;align-items:center;filter:grayscale(1)}
-  #muteBtn svg{width:20px;height:20px;fill:#fff}
-  #vol{-webkit-appearance:none;width:130px;height:6px;border-radius:100px;background:#fff;outline:none}
-  #vol::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #000;box-shadow:0 0 8px rgba(255,255,255,.6)}
-  #vol::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid #000}
   #cur{position:fixed;width:18px;height:18px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);color:#fff;font-size:18px;line-height:1;text-shadow:0 0 8px #fff,0 0 16px rgba(255,255,255,.8);opacity:0}
   #curRing{display:none}
   @media(hover:hover){body,a,button,input{cursor:none}}
   @media(hover:none){#cur,#trail{display:none}}
   @media(max-width:520px){
-    #main{padding:12px}
-    .card{width:min(300px,80vw);padding:20px 14px 12px;border-radius:20px;background:rgba(0,0,0,.35)}
-    .avatar-wrap{width:74px;height:74px;margin-bottom:10px}
-    h1{font-size:23px}
-    .badge{width:17px;height:17px;line-height:17px;font-size:11px}
-    .pill{font-size:10px;padding:3px 10px}
-    .bio{font-size:12px;margin:10px 0 2px}
-    .location{font-size:11px;margin-bottom:12px}
-    .links{margin:10px 0 6px}
-    .icon{width:40px;height:40px}
-    a.btn{padding:10px 12px;font-size:13px;margin:7px 0}
-    .foot{font-size:11px;margin-top:10px}
-    #volWrap{padding:6px 10px}#vol{width:90px}
+    #main{padding:10px}
+    .card{width:min(250px,72vw);padding:16px 12px 10px;border-radius:18px;background:rgba(0,0,0,.22)}
+    .avatar-wrap{width:60px;height:60px;margin-bottom:8px}
+    h1{font-size:20px}
+    .badge{width:15px;height:15px;line-height:15px;font-size:10px}
+    .pill{font-size:9px;padding:2px 8px}
+    .bio{font-size:11px;margin:8px 0 2px;padding:6px 12px}
+    .location{font-size:10px;margin-bottom:10px}
+    .links{margin:8px 0 5px}
+    .icon{width:36px;height:36px}
+    a.btn{padding:8px 10px;font-size:12px;margin:6px 0}
+    .foot{font-size:10px;margin-top:8px}
   }
 </style>
 </head>
@@ -102,8 +94,6 @@
 <div class="grain"></div>
 <div id="glow"></div>
 <div id="cur">✦</div>
-<div id="volWrap"><button id="muteBtn"><svg id="icoOn" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 8a5 5 0 0 1 0 8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M18.5 5.5a9 9 0 0 1 0 13" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg><svg id="icoOff" viewBox="0 0 24 24" style="display:none"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 9l6 6M22 9l-6 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button><input id="vol" type="range" min="0" max="100" value="75" /></div>
-<button id="soundToggle">sound: on</button>
 <audio id="bgm" loop preload="auto"><source src="serial%20experiment%20lain.mp3" type="audio/mpeg"></audio>
 <div id="enter"><div class="logo">tqig</div><div class="pill-btn">click to enter</div></div>
 <div id="main">
@@ -111,29 +101,21 @@
     <div class="avatar-wrap"><div class="avatar"></div></div>
     <div><h1>tqig</h1><span class="badge">✓</span></div>
     <div class="pills"><span class="pill">uid 1</span></div>
-    <div class="bio" id="typed"></div>
+    <div class="bio"><span id="typed">presented to you by @tqig / @euroeth</span></div>
     <a class="btn" href="https://www.instagram.com/euroeth/" target="_blank"><span class="blabel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>instagram</span><small>↗</small></a>
     <a class="btn" href="https://www.tiktok.com/@tqig" target="_blank"><span class="blabel"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>tiktok</span><small>↗</small></a>
-    <div class="quote">“The blueprint is <b>believing in yourself</b><br>the cheat code is <b>discipline and consistency</b><br>the truth is <b>nobody is coming to save u</b>”</div>
     <div class="foot"><span>© tqig • <span class="eq"><i></i><i></i><i></i></span></span><span>👁 <span id="views">1</span></span></div>
   </div>
 </div>
 <script>
 const enter=document.getElementById('enter'),main=document.getElementById('main');
 enter.addEventListener('click',()=>{enter.classList.add('hide');main.classList.add('show');typeLoop();
-const a=document.getElementById('bgm');if(a){a.currentTime=0;a.volume=.75;a.play().catch(()=>{})}});
-const roles=["@euroeth • @tqig","welcome to tqig.space"];let ri=0;
-function typeLoop(){const el=document.getElementById('typed');el.style.opacity='0';
-setTimeout(()=>{el.textContent=roles[ri];ri=(ri+1)%roles.length;el.style.opacity='1';setTimeout(typeLoop,2600)},450)}
+const a=document.getElementById('bgm');if(a){a.currentTime=0;a.volume=.5;a.play().catch(()=>{})}});
+function typeLoop(){document.getElementById('typed').textContent="presented to you by @tqig / @euroeth"}
 document.title="tqig";
 // casual copy deterrents (guns.lol style - won't stop determined viewers, nothing can)
 addEventListener('contextmenu',e=>e.preventDefault());
 addEventListener('keydown',e=>{if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&['I','J','C'].includes(e.key))||(e.ctrlKey&&e.key==='U'))e.preventDefault()});
-document.getElementById('soundToggle').onclick=e=>{const a=document.getElementById('bgm');if(!a)return;if(a.paused){a.play();e.target.textContent='sound: on'}else{a.pause();e.target.textContent='sound: off'}};
-const bgm=document.getElementById('bgm'),vol=document.getElementById('vol'),mute=document.getElementById('muteBtn'),icoOn=document.getElementById('icoOn'),icoOff=document.getElementById('icoOff');
-function syncIco(){const m=bgm.muted||vol.value==0;icoOn.style.display=m?'none':'block';icoOff.style.display=m?'block':'none'}
-bgm.volume=.75;vol.oninput=()=>{bgm.volume=vol.value/100;bgm.muted=false;syncIco()};
-mute.onclick=()=>{bgm.muted=!bgm.muted;syncIco()};syncIco();
 // clean comet cursor trail: thin ribbon, no glow blobs
 const cur=document.getElementById('cur');let mx=0,my=0,moved=false;
 const tc=document.getElementById('trail'),tx=tc.getContext('2d');let TW,TH;const hist=[];
@@ -152,16 +134,18 @@ localStorage.setItem('tqig_views',v);localStorage.setItem('tqig_ts',Date.now().t
 document.getElementById('views').textContent=v.toLocaleString('en-US');
 // slow quote rain: readable falling lines
 const qc=document.getElementById('qrain'),qx=qc.getContext('2d');let QW,QH;
-const qlines=["The blueprint is believing in yourself","the cheat code is discipline and consistency","the truth is nobody is coming to save u","- - - - - - - - - - - - - - - - - - -"];
+const qlines=["The blueprint is believing in yourself","the cheat code is discipline and consistency","the truth is nobody is coming to save u"];
 function qrs(){QW=qc.width=innerWidth;QH=qc.height=innerHeight}qrs();addEventListener('resize',qrs);
 let drops=[];
-function qspawn(){const rows=Math.max(1,Math.floor(QH/260));for(let r=0;r<rows;r++)drops.push({x:Math.random()*QW,y:-20-Math.random()*QH,line:qlines[Math.floor(Math.random()*qlines.length)],v:.28+Math.random()*.25})}
-qspawn();setInterval(()=>{if(drops.length<14)qspawn()},6000);
-(function qloop(){qx.clearRect(0,0,QW,QH);qx.font='12px ui-monospace,Menlo,Consolas,monospace';qx.textAlign='center';
-drops.forEach(o=>{o.y+=o.v;if(o.y>QH+30){o.y=-30;o.x=Math.random()*QW}qx.globalAlpha=.5;qx.fillStyle='#fff';qx.fillText(o.line,o.x,o.y)});qx.globalAlpha=1;requestAnimationFrame(qloop)})();
+function qspawn(){for(let r=0;r<2;r++)drops.push({x:QW*.15+Math.random()*QW*.7,y:-40-Math.random()*QH*.6,line:qlines[Math.floor(Math.random()*qlines.length)],v:.5+Math.random()*.3})}
+qspawn();setInterval(()=>{if(drops.length<6)qspawn()},5000);
+(function qloop(){qx.clearRect(0,0,QW,QH);const fs=Math.min(34,Math.max(19,QW/26));qx.font='700 '+fs+'px ui-monospace,Menlo,Consolas,monospace';qx.textAlign='center';
+drops.forEach(o=>{o.y+=o.v;if(o.y>QH+60){o.y=-60;o.x=QW*.15+Math.random()*QW*.7}qx.globalAlpha=.85;qx.fillStyle='#fff';qx.shadowColor='#fff';qx.shadowBlur=12;qx.fillText(o.line,o.x,o.y)});qx.shadowBlur=0;qx.globalAlpha=1;requestAnimationFrame(qloop)})();
 // tilt
 const card=document.getElementById('card');
-addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();const dx=(e.clientX-(r.left+r.width/2))/r.width,dy=(e.clientY-(r.top+r.height/2))/r.height;card.style.transform=`perspective(900px) rotateY(${dx*10}deg) rotateX(${-dy*10}deg)`;
+let spin=0,spinning=false;
+setInterval(()=>{spin+=360;spinning=true;card.style.transition='transform .6s cubic-bezier(.45,0,.2,1)';card.style.transform=`perspective(900px) rotateY(${spin}deg)`;setTimeout(()=>{spinning=false;card.style.transition='transform .2s'},650)},5000);
+addEventListener('mousemove',e=>{if(spinning)return;const r=card.getBoundingClientRect();const dx=(e.clientX-(r.left+r.width/2))/r.width,dy=(e.clientY-(r.top+r.height/2))/r.height;card.style.transform=`perspective(900px) rotateY(${spin+dx*10}deg) rotateX(${-dy*10}deg)`;
 const g=document.getElementById('glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px'});
 // stars
 const c=document.getElementById('stars'),x=c.getContext('2d');let W,H,p=[];
