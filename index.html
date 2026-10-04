@@ -19,9 +19,11 @@
   .grain{position:fixed;inset:0;opacity:.07;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
   #bgvid{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.5);z-index:0}
   canvas#stars{position:fixed;inset:0;pointer-events:none;opacity:.9;z-index:1}
-  #typed{background:linear-gradient(100deg,#777 30%,#fff 50%,#777 70%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 3.2s linear infinite;display:inline-block}
+  #typed{background:linear-gradient(100deg,#666 25%,#fff 50%,#666 75%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 2.4s linear infinite;display:inline-block;font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;font-weight:800;font-size:15px;letter-spacing:1.2px;filter:drop-shadow(0 0 10px rgba(255,255,255,.35))}
   @keyframes shimmer{to{background-position:220% center}}
-  canvas#qrain{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.85}
+  .bio{animation:floaty 4s ease-in-out infinite}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  canvas#qrain{position:fixed;inset:0;pointer-events:none;z-index:40;opacity:.85}
   canvas#trail{position:fixed;inset:0;pointer-events:none;z-index:60}
   #glow{position:fixed;width:300px;height:300px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);transform:translate(-50%,-50%);z-index:3}
   #enter{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;background:#000;cursor:pointer;transition:opacity .5s}
@@ -131,7 +133,7 @@ const gaps=Math.floor((Date.now()-lt)/300000);
 for(let k=0;k<gaps;k++){v+=2+Math.floor(Math.random()*2);if(v>=10000)v=1346}
 v+=1;if(v>=10000)v=1346;
 localStorage.setItem('tqig_views',v);localStorage.setItem('tqig_ts',Date.now().toString());
-document.getElementById('views').textContent=v.toLocaleString('en-US');
+document.getElementById('views').textContent=v>=1000?(v/1000).toFixed(1)+'k':v;
 // slow quote rain: readable falling lines
 const qc=document.getElementById('qrain'),qx=qc.getContext('2d');let QW,QH;
 const qlines=["The blueprint is believing in yourself","the cheat code is discipline and consistency","the truth is nobody is coming to save u"];
