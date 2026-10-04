@@ -29,7 +29,6 @@
   #enter .pill-btn:before{content:'';position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:shine 2.6s infinite}
   #enter:hover .pill-btn{background:#fff;color:#000}
   @keyframes pulse{0%,100%{opacity:.65}50%{opacity:1}}
-  #flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .45s;z-index:49}
   #main{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;filter:blur(12px);transform:translateY(14px);transition:all .9s}
   #main.show{opacity:1;filter:none;transform:none}
   .card{width:min(390px,90vw);background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:30px 26px 20px;text-align:center;backdrop-filter:blur(22px);box-shadow:0 30px 90px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.12);transform-style:preserve-3d;transition:transform .2s;position:relative;overflow:hidden}
@@ -44,15 +43,18 @@
   .badge{display:inline-block;font-size:13px;background:#fff;color:#000;border-radius:50%;width:20px;height:20px;line-height:20px;margin-left:6px;vertical-align:middle}
   .pills{display:flex;justify-content:center;gap:8px;margin-top:8px;flex-wrap:wrap}
   .pill{font-size:11px;border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:4px 12px;color:#ccc;background:rgba(255,255,255,.05)}
-  .bio{margin:14px 0 4px;min-height:20px;font-size:14px;color:#e5e5e5}
-  .bio:after{content:'▊';animation:blink 1s infinite;color:#fff}
+  .bio{margin:14px 0 4px;min-height:20px;font-size:13.5px;color:#eee;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);padding:8px 16px;border-radius:100px;display:inline-block;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+  .bio:after{content:'▊';animation:blink 1s infinite;color:#fff;text-shadow:0 0 8px #fff}
   @keyframes blink{50%{opacity:0}}
   .links{display:flex;justify-content:center;gap:10px;margin:16px 0 8px}
   .icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);color:#fff;text-decoration:none;transition:.18s}
   .icon:hover{background:#fff;color:#000;transform:translateY(-3px) scale(1.05);box-shadow:0 8px 25px rgba(255,255,255,.3)}
-  a.btn{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:#fff;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);padding:13px 16px;border-radius:14px;margin:9px 0;font-weight:600;font-size:14px;transition:.18s}
-  a.btn small{opacity:.5;font-weight:400}
-  a.btn:hover{background:#fff;color:#000;transform:translateY(-1px)}
+  a.btn{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:#fff;background:linear-gradient(180deg,rgba(255,255,255,.11),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.24);padding:13px 16px;border-radius:14px;margin:9px 0;font-weight:600;font-size:14px;transition:.18s;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 4px 18px rgba(0,0,0,.5)}
+  a.btn:before{content:'';position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-20deg);transition:left .5s}
+  a.btn:hover:before{left:130%}
+  a.btn small{opacity:.5;font-weight:400;transition:.18s}
+  a.btn:hover{background:#fff;color:#000;transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,255,255,.28)}
+  a.btn:hover small{opacity:1;transform:translate(3px,-3px)}
   .eq{display:flex;gap:3px;align-items:end;height:16px}
   .eq i{width:3px;background:currentColor;display:block;animation:eq 1s infinite ease-in-out}
   .eq i:nth-child(1){height:60%}.eq i:nth-child(2){height:100%;animation-delay:.15s}.eq i:nth-child(3){height:40%;animation-delay:.3s}
@@ -65,7 +67,7 @@
   #vol{-webkit-appearance:none;width:130px;height:6px;border-radius:100px;background:#fff;outline:none}
   #vol::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #000;box-shadow:0 0 8px rgba(255,255,255,.6)}
   #vol::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid #000}
-  #cur{position:fixed;width:18px;height:18px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);color:#fff;font-size:18px;line-height:1;text-shadow:0 0 8px #fff,0 0 16px rgba(255,255,255,.8)}
+  #cur{position:fixed;width:18px;height:18px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);color:#fff;font-size:18px;line-height:1;text-shadow:0 0 8px #fff,0 0 16px rgba(255,255,255,.8);opacity:0}
   #curRing{display:none}
   @media(hover:hover){body,a,button,input{cursor:none}}
   @media(hover:none){#cur,#trail{display:none}}
@@ -88,7 +90,7 @@
 </head>
 <body>
 <div class="bg"></div>
-<video id="bgvid" autoplay muted loop playsinline poster="thumbbig-591827.png"><source src="bg.mp4" type="video/mp4"></video>
+<video id="bgvid" autoplay muted loop playsinline poster="thumbbig-591827.png"><source src="1004.mp4" type="video/mp4"></video>
 <div class="fog"></div>
 <canvas id="stars"></canvas>
 <canvas id="trail"></canvas>
@@ -98,7 +100,6 @@
 <div id="volWrap"><button id="muteBtn"><svg id="icoOn" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 8a5 5 0 0 1 0 8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M18.5 5.5a9 9 0 0 1 0 13" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg><svg id="icoOff" viewBox="0 0 24 24" style="display:none"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 9l6 6M22 9l-6 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button><input id="vol" type="range" min="0" max="100" value="75" /></div>
 <button id="soundToggle">sound: on</button>
 <audio id="bgm" loop preload="auto"><source src="addiction.mp3" type="audio/mpeg"></audio>
-<div id="flash"></div>
 <div id="enter"><div class="logo">tqig</div><div class="pill-btn">click to enter</div></div>
 <div id="main">
   <div class="card" id="card">
@@ -117,13 +118,8 @@
 </div>
 <script>
 const enter=document.getElementById('enter'),main=document.getElementById('main');
-enter.addEventListener('click',()=>{
-  document.getElementById('flash').style.opacity='1';
-  setTimeout(()=>{enter.classList.add('hide');main.classList.add('show');typeLoop();
-    document.getElementById('flash').style.opacity='0';
-    const a=document.getElementById('bgm');if(a){a.currentTime=0;a.volume=.75;a.play().catch(()=>{})}
-  },180);
-});
+enter.addEventListener('click',()=>{enter.classList.add('hide');main.classList.add('show');typeLoop();
+const a=document.getElementById('bgm');if(a){a.currentTime=0;a.volume=.75;a.play().catch(()=>{})}});
 const roles=["welcome to tqig.space","@euroeth • @tqig"];let ri=0,ci=0,del=false;
 function typeLoop(){const el=document.getElementById('typed');const cur=roles[ri];
 if(!del){ci++;if(ci>=cur.length){ci=cur.length;del=true;setTimeout(typeLoop,1400);el.textContent=cur;return}}else{ci--;if(ci<=0){ci=0;del=false;ri=(ri+1)%roles.length}}
@@ -138,10 +134,11 @@ function syncIco(){const m=bgm.muted||vol.value==0;icoOn.style.display=m?'none':
 bgm.volume=.75;vol.oninput=()=>{bgm.volume=vol.value/100;bgm.muted=false;syncIco()};
 mute.onclick=()=>{bgm.muted=!bgm.muted;syncIco()};syncIco();
 // clean comet cursor trail: thin ribbon, no glow blobs
-const cur=document.getElementById('cur');let mx=innerWidth/2,my=innerHeight/2;
+const cur=document.getElementById('cur');let mx=0,my=0,moved=false;
 const tc=document.getElementById('trail'),tx=tc.getContext('2d');let TW,TH;const hist=[];
 function trs(){TW=tc.width=innerWidth;TH=tc.height=innerHeight}trs();addEventListener('resize',trs);
-addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';
+if(!moved){moved=true;cur.style.opacity='1';for(let i=0;i<70;i++)hist.push({x:mx,y:my})}});
 (function tloop(){tx.clearRect(0,0,TW,TH);
 hist.push({x:mx,y:my});if(hist.length>70)hist.shift();
 for(let i=1;i<hist.length;i++){const a=i/hist.length;tx.globalAlpha=a*.95;tx.strokeStyle='#fff';tx.lineWidth=1+a*3.6;tx.lineCap='round';tx.beginPath();tx.moveTo(hist[i-1].x,hist[i-1].y);tx.lineTo(hist[i].x,hist[i].y);tx.stroke()}
