@@ -84,7 +84,7 @@
   <div class="card" id="card">
     <div class="avatar-wrap"><div class="avatar"></div></div>
     <div><h1>tqig</h1><span class="badge">✓</span></div>
-    <div class="pills"><span class="pill">tqig.space</span><span class="pill">uid 1</span><span class="pill">★ b/w ★</span></div>
+    <div class="pills"><span class="pill">uid 1</span></div>
     <div class="bio" id="typed"></div>
     <div class="links">
       <a class="icon" href="https://www.instagram.com/euroeth/" target="_blank" title="Instagram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
@@ -97,7 +97,7 @@
 </div>
 <script>
 const enter=document.getElementById('enter'),main=document.getElementById('main');
-const roles=["welcome to tqig.space","black / white vibes","@euroeth • @tqig"];let ri=0,ci=0,del=false;
+const roles=["welcome to tqig.space","@euroeth • @tqig"];let ri=0,ci=0,del=false;
 function typeLoop(){const el=document.getElementById('typed');const cur=roles[ri];
 if(!del){ci++;if(ci>=cur.length){ci=cur.length;del=true;setTimeout(typeLoop,1400);el.textContent=cur;return}}else{ci--;if(ci<=0){ci=0;del=false;ri=(ri+1)%roles.length}}
 el.textContent=cur.slice(0,ci);setTimeout(typeLoop,del?30:55)}
