@@ -34,7 +34,7 @@
   @keyframes pulse{0%,100%{opacity:.65}50%{opacity:1}}
   #main{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;filter:blur(12px);transform:translateY(14px);transition:all .9s}
   #main.show{opacity:1;filter:none;transform:none}
-  .card{width:min(390px,90vw);background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:30px 26px 20px;text-align:center;backdrop-filter:blur(26px);box-shadow:0 30px 90px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.12);transform-style:preserve-3d;transition:transform .2s;position:relative;overflow:hidden}
+  .card{width:min(390px,90vw);background:rgba(0,0,0,.14);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:30px 26px 20px;text-align:center;backdrop-filter:blur(26px);box-shadow:0 30px 90px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.12);transform-style:preserve-3d;transition:transform .2s;position:relative;overflow:hidden}
   .card:before{content:'';position:absolute;top:0;left:-60%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.09),transparent);transform:skewX(-20deg);animation:shine 5s infinite}
   @keyframes shine{0%{left:-60%}60%,100%{left:130%}}
   .avatar-wrap{position:relative;width:100px;height:100px;margin:0 auto 12px}
@@ -70,7 +70,7 @@
   @media(hover:none){#cur,#trail{display:none}}
   @media(max-width:520px){
     #main{padding:10px}
-    .card{width:min(250px,72vw);padding:16px 12px 10px;border-radius:18px;background:rgba(0,0,0,.22)}
+    .card{width:min(250px,72vw);padding:16px 12px 10px;border-radius:18px;background:rgba(0,0,0,.12)}
     .avatar-wrap{width:60px;height:60px;margin-bottom:8px}
     h1{font-size:20px}
     .badge{width:15px;height:15px;line-height:15px;font-size:10px}
@@ -137,14 +137,14 @@ const qc=document.getElementById('qrain'),qx=qc.getContext('2d');let QW,QH;
 const qlines=["The blueprint is believing in yourself","the cheat code is discipline and consistency","the truth is nobody is coming to save u"];
 function qrs(){QW=qc.width=innerWidth;QH=qc.height=innerHeight}qrs();addEventListener('resize',qrs);
 let drops=[];
-function qspawn(){for(let r=0;r<2;r++)drops.push({x:QW*.15+Math.random()*QW*.7,y:-40-Math.random()*QH*.6,line:qlines[Math.floor(Math.random()*qlines.length)],v:.5+Math.random()*.3})}
-qspawn();setInterval(()=>{if(drops.length<6)qspawn()},5000);
+function qspawn(){qlines.forEach((ln,i)=>drops.push({x:QW/2,y:-60-i*260,line:ln,v:1.05}))}
+qspawn();setInterval(()=>{if(drops.length===0)qspawn()},30000);
 (function qloop(){qx.clearRect(0,0,QW,QH);const fs=Math.min(34,Math.max(19,QW/26));qx.font='700 '+fs+'px ui-monospace,Menlo,Consolas,monospace';qx.textAlign='center';
-drops.forEach(o=>{o.y+=o.v;if(o.y>QH+60){o.y=-60;o.x=QW*.15+Math.random()*QW*.7}qx.globalAlpha=.85;qx.fillStyle='#fff';qx.shadowColor='#fff';qx.shadowBlur=12;qx.fillText(o.line,o.x,o.y)});qx.shadowBlur=0;qx.globalAlpha=1;requestAnimationFrame(qloop)})();
+drops.forEach(o=>{o.y+=o.v;qx.globalAlpha=.85;qx.fillStyle='#fff';qx.shadowColor='#fff';qx.shadowBlur=12;qx.fillText(o.line,o.x,o.y)});drops=drops.filter(o=>o.y<QH+80);qx.shadowBlur=0;qx.globalAlpha=1;requestAnimationFrame(qloop)})();
 // tilt
 const card=document.getElementById('card');
 let spin=0,spinning=false;
-setInterval(()=>{spin+=360;spinning=true;card.style.transition='transform .6s cubic-bezier(.45,0,.2,1)';card.style.transform=`perspective(900px) rotateY(${spin}deg)`;setTimeout(()=>{spinning=false;card.style.transition='transform .2s'},650)},5000);
+setInterval(()=>{spin+=360;spinning=true;card.style.transition='transform 3s cubic-bezier(.65,0,.35,1)';card.style.transform=`perspective(900px) rotateY(${spin}deg)`;setTimeout(()=>{spinning=false;card.style.transition='transform .2s'},3050)},5000);
 addEventListener('mousemove',e=>{if(spinning)return;const r=card.getBoundingClientRect();const dx=(e.clientX-(r.left+r.width/2))/r.width,dy=(e.clientY-(r.top+r.height/2))/r.height;card.style.transform=`perspective(900px) rotateY(${spin+dx*10}deg) rotateX(${-dy*10}deg)`;
 const g=document.getElementById('glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px'});
 // stars
