@@ -9,7 +9,7 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
   body{background:#000;color:#fff;min-height:100vh;overflow:hidden}
-  .bg{position:fixed;inset:0;background:url('bg.jpg'),url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1920&auto=format&fit=crop') center/cover;filter:grayscale(1) brightness(.55);transform:scale(1.05)}
+  .bg{position:fixed;inset:0;background:url('thumbbig-591827.png'),url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1920&auto=format&fit=crop') center/cover;filter:grayscale(1) brightness(.55);transform:scale(1.05)}
   .bg:after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 0%,rgba(0,0,0,.75) 100%)}
   canvas#stars{position:fixed;inset:0;pointer-events:none;opacity:.9}
   #enter{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7);backdrop-filter:blur(14px);cursor:pointer;transition:opacity .6s}
@@ -41,8 +41,8 @@
 <div class="bg"></div>
 <canvas id="stars"></canvas>
 <button id="soundToggle">sound: on</button>
-<!-- BACKGROUND SONG: put song.mp3 in this same folder. No visible player. -->
-<audio id="bgm" loop preload="auto"><source src="song.mp3" type="audio/mpeg"></audio>
+<!-- BACKGROUND SONG: hidden, no preview. -->
+<audio id="bgm" loop preload="auto"><source src="addiction.mp3" type="audio/mpeg"></audio>
 <div id="enter"><span>— click to enter —</span></div>
 <div id="main">
   <div class="card">
