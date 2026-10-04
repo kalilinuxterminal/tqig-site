@@ -21,10 +21,15 @@
   canvas#stars{position:fixed;inset:0;pointer-events:none;opacity:.9;z-index:1}
   canvas#trail{position:fixed;inset:0;pointer-events:none;z-index:60}
   #glow{position:fixed;width:300px;height:300px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);transform:translate(-50%,-50%);z-index:3}
-  #intro{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:#000;transition:opacity .6s}
-  #intro.hide{opacity:0;pointer-events:none}
-  #intro .logo{position:absolute;font-size:40px;font-weight:900;letter-spacing:6px;text-shadow:0 0 30px rgba(255,255,255,.8)}
-  canvas#warp{position:absolute;inset:0}
+  #enter{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;gap:18px;align-items:center;justify-content:center;background:rgba(0,0,0,.68);backdrop-filter:blur(16px);cursor:pointer;transition:opacity .5s}
+  #enter.hide{opacity:0;pointer-events:none}
+  #enter .logo{font-size:46px;font-weight:900;letter-spacing:8px;background:linear-gradient(180deg,#fff 20%,#777);-webkit-background-clip:text;background-clip:text;color:transparent;animation:glow 2.4s ease-in-out infinite}
+  @keyframes glow{0%,100%{filter:drop-shadow(0 0 6px rgba(255,255,255,.35))}50%{filter:drop-shadow(0 0 22px rgba(255,255,255,.75))}}
+  #enter .pill-btn{position:relative;font-size:14px;letter-spacing:3px;color:#fff;border:1px solid rgba(255,255,255,.35);padding:14px 38px;border-radius:100px;background:rgba(255,255,255,.05);overflow:hidden;animation:pulse 1.8s infinite;transition:.2s}
+  #enter .pill-btn:before{content:'';position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:shine 2.6s infinite}
+  #enter:hover .pill-btn{background:#fff;color:#000}
+  @keyframes pulse{0%,100%{opacity:.65}50%{opacity:1}}
+  #flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .45s;z-index:49}
   #main{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;filter:blur(12px);transform:translateY(14px);transition:all .9s}
   #main.show{opacity:1;filter:none;transform:none}
   .card{width:min(390px,90vw);background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:30px 26px 20px;text-align:center;backdrop-filter:blur(22px);box-shadow:0 30px 90px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.12);transform-style:preserve-3d;transition:transform .2s;position:relative;overflow:hidden}
@@ -54,8 +59,6 @@
   @keyframes eq{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1)}}
   .foot{display:flex;justify-content:space-between;margin-top:16px;font-size:12px;color:#888}
   #soundToggle{display:none}
-  #tapSound{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:40;display:none;align-items:center;gap:8px;background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:100px;padding:10px 22px;font-size:13px;letter-spacing:1px;animation:pulse 1.6s infinite}
-  @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
   #volWrap{position:fixed;top:16px;right:16px;z-index:10;display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:8px 14px;backdrop-filter:blur(10px)}
   #muteBtn{background:none;border:0;color:#fff;font-size:0;cursor:pointer;display:flex;align-items:center;filter:grayscale(1)}
   #muteBtn svg{width:20px;height:20px;fill:#fff}
@@ -95,8 +98,8 @@
 <div id="volWrap"><button id="muteBtn"><svg id="icoOn" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 8a5 5 0 0 1 0 8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M18.5 5.5a9 9 0 0 1 0 13" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg><svg id="icoOff" viewBox="0 0 24 24" style="display:none"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 9l6 6M22 9l-6 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button><input id="vol" type="range" min="0" max="100" value="75" /></div>
 <button id="soundToggle">sound: on</button>
 <audio id="bgm" loop preload="auto"><source src="addiction.mp3" type="audio/mpeg"></audio>
-<div id="tapSound">🔊 tap for sound</div>
-<div id="intro"><canvas id="warp"></canvas><div class="logo">tqig</div></div>
+<div id="flash"></div>
+<div id="enter"><div class="logo">tqig</div><div class="pill-btn">click to enter</div></div>
 <div id="main">
   <div class="card" id="card">
     <div class="avatar-wrap"><div class="avatar"></div></div>
@@ -113,26 +116,22 @@
   </div>
 </div>
 <script>
-const intro=document.getElementById('intro'),main=document.getElementById('main');
-// starship warp intro: 2s hyperspace, auto reveal, no click needed
-const wc=document.getElementById('warp'),wx=wc.getContext('2d');let WW,WH,ws=[];
-function wrs(){WW=wc.width=innerWidth;WH=wc.height=innerHeight}wrs();addEventListener('resize',wrs);
-for(let k=0;k<220;k++){const a=Math.random()*Math.PI*2,r=Math.random()*Math.hypot(WW,WH)/2;ws.push({a,r,s:Math.random()*2+.6})}
-let warp=0,wstart=Date.now();
-(function wloop(){const el=(Date.now()-wstart)/1000;warp=Math.min(el/1.4,1); // ramp up over 1.4s
-wx.fillStyle='rgba(0,0,0,.28)';wx.fillRect(0,0,WW,WH);wx.save();wx.translate(WW/2,WH/2);
-ws.forEach(o=>{o.r+=2+warp*26;const maxR=Math.hypot(WW,WH)/2;if(o.r>maxR){o.r=2;o.a=Math.random()*Math.PI*2}
-const x=Math.cos(o.a)*o.r,y=Math.sin(o.a)*o.r;wx.globalAlpha=.3+warp*.7;wx.strokeStyle='#fff';wx.lineWidth=o.s*(1+warp*2);wx.beginPath();wx.moveTo(x,y);wx.lineTo(x-Math.cos(o.a)*warp*36,y-Math.sin(o.a)*warp*36);wx.stroke()});
-wx.restore();
-if(el<2.1)requestAnimationFrame(wloop);else{intro.classList.add('hide');main.classList.add('show');typeLoop();startMusic()}})();
-function startMusic(){const a=document.getElementById('bgm');if(!a)return;a.currentTime=0;a.volume=.75;
-a.play().then(()=>{document.getElementById('tapSound').style.display='none'}).catch(()=>{a.muted=true;a.play().catch(()=>{});document.getElementById('tapSound').style.display='flex'})}
-addEventListener('pointerdown',()=>{const a=document.getElementById('bgm');if(a&&a.muted){a.muted=false;syncIco();document.getElementById('tapSound').style.display='none'}},{once:true});
+const enter=document.getElementById('enter'),main=document.getElementById('main');
+enter.addEventListener('click',()=>{
+  document.getElementById('flash').style.opacity='1';
+  setTimeout(()=>{enter.classList.add('hide');main.classList.add('show');typeLoop();
+    document.getElementById('flash').style.opacity='0';
+    const a=document.getElementById('bgm');if(a){a.currentTime=0;a.volume=.75;a.play().catch(()=>{})}
+  },180);
+});
 const roles=["welcome to tqig.space","@euroeth • @tqig"];let ri=0,ci=0,del=false;
 function typeLoop(){const el=document.getElementById('typed');const cur=roles[ri];
 if(!del){ci++;if(ci>=cur.length){ci=cur.length;del=true;setTimeout(typeLoop,1400);el.textContent=cur;return}}else{ci--;if(ci<=0){ci=0;del=false;ri=(ri+1)%roles.length}}
 el.textContent=cur.slice(0,ci);setTimeout(typeLoop,del?30:55)}
 document.title="tqig";
+// casual copy deterrents (guns.lol style - won't stop determined viewers, nothing can)
+addEventListener('contextmenu',e=>e.preventDefault());
+addEventListener('keydown',e=>{if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&['I','J','C'].includes(e.key))||(e.ctrlKey&&e.key==='U'))e.preventDefault()});
 document.getElementById('soundToggle').onclick=e=>{const a=document.getElementById('bgm');if(!a)return;if(a.paused){a.play();e.target.textContent='sound: on'}else{a.pause();e.target.textContent='sound: off'}};
 const bgm=document.getElementById('bgm'),vol=document.getElementById('vol'),mute=document.getElementById('muteBtn'),icoOn=document.getElementById('icoOn'),icoOff=document.getElementById('icoOff');
 function syncIco(){const m=bgm.muted||vol.value==0;icoOn.style.display=m?'none':'block';icoOff.style.display=m?'block':'none'}
