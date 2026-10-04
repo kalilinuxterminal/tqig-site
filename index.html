@@ -6,92 +6,119 @@
 <title>tqig</title>
 <meta property="og:title" content="tqig" />
 <meta property="og:description" content="tqig.space" />
+<link rel="icon" type="image/png" href="thumbbig-591827.png" />
+<link rel="apple-touch-icon" href="thumbbig-591827.png" />
 <style>
   *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
-  body{background:#000;color:#fff;min-height:100vh;overflow:hidden}
-  .bg{position:fixed;inset:0;background:url('thumbbig-591827.png'),url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1920&auto=format&fit=crop') center/cover;filter:grayscale(1) brightness(.55);transform:scale(1.05)}
-  .bg:after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 0%,rgba(0,0,0,.75) 100%)}
+  body{background:#000;color:#fff;min-height:100vh;overflow:hidden;cursor:default}
+  .bg{position:fixed;inset:-3%;background-image:url('thumbbig-591827.png'),url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1920&auto=format&fit=crop');background-position:center;background-size:cover;background-repeat:no-repeat;filter:grayscale(1) brightness(.5);animation:zoom 24s ease-in-out infinite alternate}
+  @keyframes zoom{from{transform:scale(1)}to{transform:scale(1.08)}}
+  .bg:after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 0%,rgba(0,0,0,.78) 100%),linear-gradient(to bottom,rgba(0,0,0,.3),transparent 30%,transparent 70%,rgba(0,0,0,.5))}
+  .fog{position:fixed;inset:0;background:radial-gradient(400px 200px at 20% 80%,rgba(255,255,255,.06),transparent),radial-gradient(500px 250px at 80% 20%,rgba(255,255,255,.05),transparent);animation:fog 12s ease-in-out infinite alternate;pointer-events:none}
+  @keyframes fog{from{opacity:.5;transform:translateX(-2%)}to{opacity:1;transform:translateX(2%)}}
+  .grain{position:fixed;inset:0;opacity:.07;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
   canvas#stars{position:fixed;inset:0;pointer-events:none;opacity:.9}
-  #enter{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7);backdrop-filter:blur(14px);cursor:pointer;transition:opacity .6s}
+  #glow{position:fixed;width:300px;height:300px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);transform:translate(-50%,-50%);z-index:3}
+  #enter{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;background:rgba(0,0,0,.72);backdrop-filter:blur(16px);cursor:pointer;transition:opacity .7s}
   #enter.hide{opacity:0;pointer-events:none}
-  #enter span{font-size:18px;letter-spacing:3px;opacity:.9;animation:pulse 1.6s infinite;color:#fff}
-  @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
-  #main{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;filter:blur(10px) grayscale(1);transform:translateY(10px);transition:all .8s}
-  #main.show{opacity:1;filter:grayscale(1);transform:none}
-  .card{width:min(430px,94vw);background:rgba(0,0,0,.68);border:1px solid rgba(255,255,255,.18);border-radius:22px;padding:36px 30px 24px;text-align:center;backdrop-filter:blur(20px);box-shadow:0 30px 80px rgba(0,0,0,.9)}
-  .avatar{width:110px;height:110px;border-radius:50%;margin:0 auto 14px;background:linear-gradient(135deg,#fff,#555);display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:900;color:#000;border:3px solid rgba(255,255,255,.3);box-shadow:0 0 40px rgba(255,255,255,.25)}
-  h1{font-size:32px;font-weight:800;letter-spacing:1px;color:#fff;text-shadow:0 0 20px rgba(255,255,255,.5)}
-  .uid{font-size:12px;opacity:.4;margin-top:2px;color:#aaa}
-  .bio{margin:12px 0 6px;min-height:20px;font-size:14px;color:#e5e5e5}
+  #enter .logo{font-size:42px;font-weight:900;letter-spacing:4px}
+  #enter span{font-size:15px;letter-spacing:3px;animation:pulse 1.6s infinite;color:#ddd;border:1px solid rgba(255,255,255,.25);padding:12px 28px;border-radius:100px;background:rgba(255,255,255,.06)}
+  @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+  #main{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;filter:blur(12px);transform:translateY(14px);transition:all .9s}
+  #main.show{opacity:1;filter:none;transform:none}
+  .card{width:min(440px,94vw);background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:38px 30px 22px;text-align:center;backdrop-filter:blur(22px);box-shadow:0 30px 90px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.12);transform-style:preserve-3d;transition:transform .2s;position:relative;overflow:hidden}
+  .card:before{content:'';position:absolute;top:0;left:-60%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.09),transparent);transform:skewX(-20deg);animation:shine 5s infinite}
+  @keyframes shine{0%{left:-60%}60%,100%{left:130%}}
+  .avatar-wrap{position:relative;width:118px;height:118px;margin:0 auto 14px}
+  .avatar-wrap:before{content:'';position:absolute;inset:-4px;border-radius:50%;background:conic-gradient(from 0deg,#fff,#333,#fff,#333,#fff);animation:spin 4s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .avatar{position:absolute;inset:4px;border-radius:50%;background:#0a0a0a url('thumbbig-591827.png') center/cover;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:900;color:#fff;border:3px solid #000}
+  .status{position:absolute;bottom:8px;right:8px;width:22px;height:22px;background:#22c55e;border:3px solid #000;border-radius:50%;box-shadow:0 0 12px #22c55e}
+  h1{font-size:33px;font-weight:900;letter-spacing:1px;background:linear-gradient(180deg,#fff 30%,#999);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+  .badge{display:inline-block;font-size:13px;background:#fff;color:#000;border-radius:50%;width:20px;height:20px;line-height:20px;margin-left:6px;vertical-align:middle}
+  .pills{display:flex;justify-content:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .pill{font-size:11px;border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:4px 12px;color:#ccc;background:rgba(255,255,255,.05)}
+  .bio{margin:14px 0 4px;min-height:20px;font-size:14px;color:#e5e5e5}
   .bio:after{content:'▊';animation:blink 1s infinite;color:#fff}
   @keyframes blink{50%{opacity:0}}
-  .location{font-size:12px;opacity:.5;margin-bottom:18px;color:#bbb}
-  .links{display:flex;justify-content:center;gap:10px;margin:14px 0 8px}
-  .icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;text-decoration:none;transition:.15s}
-  .icon:hover{background:#fff;color:#000;transform:translateY(-2px)}
-  .icon svg{display:block}
-  a.btn{display:block;text-decoration:none;color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);padding:12px;border-radius:12px;margin:9px 0;font-weight:600;font-size:14px;transition:.15s}
-  a.btn:hover{background:#fff;color:#000}
-  .foot{display:flex;justify-content:space-between;margin-top:14px;font-size:12px;opacity:.5;color:#999}
-  #spotify{display:none}
-  #soundToggle{position:fixed;top:16px;right:16px;z-index:10;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:10px;padding:8px 12px;cursor:pointer;font-size:13px}
+  .links{display:flex;justify-content:center;gap:10px;margin:16px 0 8px}
+  .icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);color:#fff;text-decoration:none;transition:.18s}
+  .icon:hover{background:#fff;color:#000;transform:translateY(-3px) scale(1.05);box-shadow:0 8px 25px rgba(255,255,255,.3)}
+  a.btn{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:#fff;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);padding:13px 16px;border-radius:14px;margin:9px 0;font-weight:600;font-size:14px;transition:.18s}
+  a.btn small{opacity:.5;font-weight:400}
+  a.btn:hover{background:#fff;color:#000;transform:translateY(-1px)}
+  .eq{display:flex;gap:3px;align-items:end;height:16px}
+  .eq i{width:3px;background:currentColor;display:block;animation:eq 1s infinite ease-in-out}
+  .eq i:nth-child(1){height:60%}.eq i:nth-child(2){height:100%;animation-delay:.15s}.eq i:nth-child(3){height:40%;animation-delay:.3s}
+  @keyframes eq{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1)}}
+  .foot{display:flex;justify-content:space-between;margin-top:16px;font-size:12px;color:#888}
+  #soundToggle{display:none}
+  #volWrap{position:fixed;top:16px;right:16px;z-index:10;display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:8px 14px;backdrop-filter:blur(10px)}
+  #muteBtn{background:none;border:0;color:#fff;font-size:18px;cursor:pointer}
+  #vol{-webkit-appearance:none;width:130px;height:6px;border-radius:100px;background:#fff;outline:none}
+  #vol::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #000;box-shadow:0 0 8px rgba(255,255,255,.6)}
+  #vol::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid #000}
+  #cur{position:fixed;width:8px;height:8px;background:#fff;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference}
+  #curRing{position:fixed;width:34px;height:34px;border:1px solid rgba(255,255,255,.7);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .18s,height .18s,background .18s}
+  #curRing.hovering{width:52px;height:52px;background:rgba(255,255,255,.08)}
+  @media(hover:hover){body,a,button,input{cursor:none}}
+  @media(hover:none){#cur,#curRing{display:none}}
 </style>
 </head>
 <body>
 <div class="bg"></div>
+<div class="fog"></div>
 <canvas id="stars"></canvas>
+<div class="grain"></div>
+<div id="glow"></div>
+<div id="cur"></div><div id="curRing"></div>
+<div id="volWrap"><button id="muteBtn">🔊</button><input id="vol" type="range" min="0" max="100" value="75" /></div>
 <button id="soundToggle">sound: on</button>
-<!-- BACKGROUND SONG: hidden, no preview. -->
 <audio id="bgm" loop preload="auto"><source src="addiction.mp3" type="audio/mpeg"></audio>
-<div id="enter"><span>— click to enter —</span></div>
+<div id="enter"><div class="logo">tqig</div><span>click to enter</span></div>
 <div id="main">
-  <div class="card">
-    <div class="avatar">t</div>
-    <h1>tqig</h1>
-    <div class="uid">tqig.space</div>
+  <div class="card" id="card">
+    <div class="avatar-wrap"><div class="avatar">t</div><div class="status"></div></div>
+    <div><h1>tqig</h1><span class="badge">✓</span></div>
+    <div class="pills"><span class="pill">tqig.space</span><span class="pill">uid 1</span><span class="pill">★ b/w ★</span></div>
     <div class="bio" id="typed"></div>
-    <div class="location">★ black / white ★</div>
     <div class="links">
       <a class="icon" href="https://www.instagram.com/euroeth/" target="_blank" title="Instagram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
       <a class="icon" href="https://www.tiktok.com/@tqig" target="_blank" title="TikTok"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></a>
     </div>
-    <a class="btn" href="https://www.instagram.com/euroeth/" target="_blank">instagram — @euroeth</a>
-    <a class="btn" href="https://www.tiktok.com/@tqig" target="_blank">tiktok — @tqig</a>
-    <div class="foot"><span>© tqig</span><span>👁 <span id="views">1</span></span></div>
+    <a class="btn" href="https://www.instagram.com/euroeth/" target="_blank"><span>instagram — @euroeth</span><small>↗</small></a>
+    <a class="btn" href="https://www.tiktok.com/@tqig" target="_blank"><span>tiktok — @tqig</span><small>↗</small></a>
+    <div class="foot"><span>© tqig • <span class="eq"><i></i><i></i><i></i></span></span><span>👁 <span id="views">1</span></span></div>
   </div>
 </div>
 <script>
-const enter = document.getElementById('enter');
-const main = document.getElementById('main');
-const text = "welcome to tqig.space";
-let i = 0;
-enter.addEventListener('click', () => {
-  enter.classList.add('hide');
-  main.classList.add('show');
-  type();
-  // background music from start, no preview
-  const a = document.getElementById('bgm');
-  if (a){ a.currentTime = 0; a.volume = 0.8; a.play().catch(()=>{}); }
-});
-document.getElementById('soundToggle').onclick = e => {
-  const a = document.getElementById('bgm');
-  if(!a) return;
-  if(a.paused){a.play();e.target.textContent='sound: on'}else{a.pause();e.target.textContent='sound: off'}
-};
-function type(){
-  const el = document.getElementById('typed');
-  if (i <= text.length){ el.textContent = text.slice(0,i); i++; setTimeout(type, 60); }
-}
-let v = localStorage.getItem('tqig_views') || 128;
-v = parseInt(v)+1; localStorage.setItem('tqig_views', v);
-document.getElementById('views').textContent = v;
-// falling stars
-const c = document.getElementById('stars'), x = c.getContext('2d');
-let W,H,p=[];
-function rs(){W=c.width=innerWidth;H=c.height=innerHeight}
-rs(); addEventListener('resize',rs);
-for(let k=0;k<120;k++) p.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,s:Math.random()*1.8+.4,v:Math.random()*1.2+.3,tw:Math.random()*Math.PI*2});
-(function loop(){x.clearRect(0,0,W,H);p.forEach(o=>{o.y+=o.v;o.tw+=.05;if(o.y>H){o.y=0;o.x=Math.random()*W}x.globalAlpha=.3+Math.abs(Math.sin(o.tw))*.7;x.fillStyle='#fff';x.beginPath();x.arc(o.x,o.y,o.s,0,7);x.fill()});requestAnimationFrame(loop)})();
+const enter=document.getElementById('enter'),main=document.getElementById('main');
+const roles=["welcome to tqig.space","black / white vibes","@euroeth • @tqig"];let ri=0,ci=0,del=false;
+function typeLoop(){const el=document.getElementById('typed');const cur=roles[ri];
+if(!del){ci++;if(ci>=cur.length){ci=cur.length;del=true;setTimeout(typeLoop,1400);el.textContent=cur;return}}else{ci--;if(ci<=0){ci=0;del=false;ri=(ri+1)%roles.length}}
+el.textContent=cur.slice(0,ci);setTimeout(typeLoop,del?30:55)}
+enter.addEventListener('click',()=>{enter.classList.add('hide');main.classList.add('show');typeLoop();
+const a=document.getElementById('bgm');if(a){a.currentTime=0;a.volume=.75;a.play().catch(()=>{})}
+let n=0;const titles=["tqig","t q i g","tqig.space","◯ tqig"];setInterval(()=>{document.title=titles[n++%titles.length]},900)});
+document.getElementById('soundToggle').onclick=e=>{const a=document.getElementById('bgm');if(!a)return;if(a.paused){a.play();e.target.textContent='sound: on'}else{a.pause();e.target.textContent='sound: off'}};
+const bgm=document.getElementById('bgm'),vol=document.getElementById('vol'),mute=document.getElementById('muteBtn');
+bgm.volume=.75;vol.oninput=()=>{bgm.volume=vol.value/100;bgm.muted=false;mute.textContent=vol.value==0?'🔇':'🔊'};
+mute.onclick=()=>{bgm.muted=!bgm.muted;mute.textContent=bgm.muted?'🔇':'🔊'};
+// custom cursor
+const cur=document.getElementById('cur'),ring=document.getElementById('curRing');let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function follow(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(follow)})();
+document.querySelectorAll('a,button,input,#enter').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('hovering'));el.addEventListener('mouseleave',()=>ring.classList.remove('hovering'))});
+let v=localStorage.getItem('tqig_views')||342;v=parseInt(v)+1;localStorage.setItem('tqig_views',v);document.getElementById('views').textContent=v;
+// tilt
+const card=document.getElementById('card');
+addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();const dx=(e.clientX-(r.left+r.width/2))/r.width,dy=(e.clientY-(r.top+r.height/2))/r.height;card.style.transform=`perspective(900px) rotateY(${dx*10}deg) rotateX(${-dy*10}deg)`;
+const g=document.getElementById('glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px'});
+// stars
+const c=document.getElementById('stars'),x=c.getContext('2d');let W,H,p=[];
+function rs(){W=c.width=innerWidth;H=c.height=innerHeight}rs();addEventListener('resize',rs);
+for(let k=0;k<140;k++)p.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,s:Math.random()*1.8+.4,v:Math.random()*1.3+.3,tw:Math.random()*6});
+(function loop(){x.clearRect(0,0,W,H);p.forEach(o=>{o.y+=o.v;o.tw+=.04;if(o.y>H){o.y=0;o.x=Math.random()*W}x.globalAlpha=.25+Math.abs(Math.sin(o.tw))*.75;x.fillStyle='#fff';x.beginPath();x.arc(o.x,o.y,o.s,0,7);x.fill()});requestAnimationFrame(loop)})();
 </script>
 </body>
 </html>
