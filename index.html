@@ -6,8 +6,8 @@
 <title>tqig</title>
 <meta property="og:title" content="tqig" />
 <meta property="og:description" content="tqig.space" />
-<link rel="icon" type="image/png" href="thumbbig-591827.png" />
-<link rel="apple-touch-icon" href="thumbbig-591827.png" />
+<link rel="icon" type="image/webp" href="icon.webp" />
+<link rel="apple-touch-icon" href="icon.webp" />
 <style>
   *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
   body{background:#000;color:#fff;min-height:100vh;overflow:hidden;cursor:default}
@@ -17,7 +17,9 @@
   .fog{position:fixed;inset:0;background:radial-gradient(400px 200px at 20% 80%,rgba(255,255,255,.06),transparent),radial-gradient(500px 250px at 80% 20%,rgba(255,255,255,.05),transparent);animation:fog 12s ease-in-out infinite alternate;pointer-events:none}
   @keyframes fog{from{opacity:.5;transform:translateX(-2%)}to{opacity:1;transform:translateX(2%)}}
   .grain{position:fixed;inset:0;opacity:.07;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  #bgvid{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.5);z-index:0}
   canvas#stars{position:fixed;inset:0;pointer-events:none;opacity:.9}
+  canvas#trail{position:fixed;inset:0;pointer-events:none;z-index:60}
   #glow{position:fixed;width:300px;height:300px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);transform:translate(-50%,-50%);z-index:3}
   #enter{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;background:rgba(0,0,0,.72);backdrop-filter:blur(16px);cursor:pointer;transition:opacity .7s}
   #enter.hide{opacity:0;pointer-events:none}
@@ -32,7 +34,7 @@
   .avatar-wrap{position:relative;width:118px;height:118px;margin:0 auto 14px}
   .avatar-wrap:before{content:'';position:absolute;inset:-4px;border-radius:50%;background:conic-gradient(from 0deg,#fff,#333,#fff,#333,#fff);animation:spin 4s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .avatar{position:absolute;inset:4px;border-radius:50%;background:#0a0a0a url('thumbbig-591827.png') center/cover;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:900;color:#fff;border:3px solid #000}
+  .avatar{position:absolute;inset:4px;border-radius:50%;background:#0a0a0a url('pfp.png') center/cover;overflow:hidden}
   .status{position:absolute;bottom:8px;right:8px;width:22px;height:22px;background:#22c55e;border:3px solid #000;border-radius:50%;box-shadow:0 0 12px #22c55e}
   h1{font-size:33px;font-weight:900;letter-spacing:1px;background:linear-gradient(180deg,#fff 30%,#999);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
   .badge{display:inline-block;font-size:13px;background:#fff;color:#000;border-radius:50%;width:20px;height:20px;line-height:20px;margin-left:6px;vertical-align:middle}
@@ -54,31 +56,33 @@
   .foot{display:flex;justify-content:space-between;margin-top:16px;font-size:12px;color:#888}
   #soundToggle{display:none}
   #volWrap{position:fixed;top:16px;right:16px;z-index:10;display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:8px 14px;backdrop-filter:blur(10px)}
-  #muteBtn{background:none;border:0;color:#fff;font-size:18px;cursor:pointer}
+  #muteBtn{background:none;border:0;color:#fff;font-size:0;cursor:pointer;display:flex;align-items:center;filter:grayscale(1)}
+  #muteBtn svg{width:20px;height:20px;fill:#fff}
   #vol{-webkit-appearance:none;width:130px;height:6px;border-radius:100px;background:#fff;outline:none}
   #vol::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid #000;box-shadow:0 0 8px rgba(255,255,255,.6)}
   #vol::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid #000}
-  #cur{position:fixed;width:8px;height:8px;background:#fff;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference}
-  #curRing{position:fixed;width:34px;height:34px;border:1px solid rgba(255,255,255,.7);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .18s,height .18s,background .18s}
-  #curRing.hovering{width:52px;height:52px;background:rgba(255,255,255,.08)}
+  #cur{position:fixed;width:18px;height:18px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);color:#fff;font-size:18px;line-height:1;text-shadow:0 0 8px #fff,0 0 16px rgba(255,255,255,.8)}
+  #curRing{display:none}
   @media(hover:hover){body,a,button,input{cursor:none}}
-  @media(hover:none){#cur,#curRing{display:none}}
+  @media(hover:none){#cur,#trail{display:none}}
 </style>
 </head>
 <body>
 <div class="bg"></div>
+<video id="bgvid" autoplay muted loop playsinline poster="thumbbig-591827.png"><source src="bg.mp4" type="video/mp4"></video>
 <div class="fog"></div>
 <canvas id="stars"></canvas>
+<canvas id="trail"></canvas>
 <div class="grain"></div>
 <div id="glow"></div>
-<div id="cur"></div><div id="curRing"></div>
-<div id="volWrap"><button id="muteBtn">🔊</button><input id="vol" type="range" min="0" max="100" value="75" /></div>
+<div id="cur">✦</div>
+<div id="volWrap"><button id="muteBtn"><svg id="icoOn" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 8a5 5 0 0 1 0 8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M18.5 5.5a9 9 0 0 1 0 13" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg><svg id="icoOff" viewBox="0 0 24 24" style="display:none"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 9l6 6M22 9l-6 6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button><input id="vol" type="range" min="0" max="100" value="75" /></div>
 <button id="soundToggle">sound: on</button>
 <audio id="bgm" loop preload="auto"><source src="addiction.mp3" type="audio/mpeg"></audio>
 <div id="enter"><div class="logo">tqig</div><span>click to enter</span></div>
 <div id="main">
   <div class="card" id="card">
-    <div class="avatar-wrap"><div class="avatar">t</div><div class="status"></div></div>
+    <div class="avatar-wrap"><div class="avatar"></div></div>
     <div><h1>tqig</h1><span class="badge">✓</span></div>
     <div class="pills"><span class="pill">tqig.space</span><span class="pill">uid 1</span><span class="pill">★ b/w ★</span></div>
     <div class="bio" id="typed"></div>
@@ -101,14 +105,17 @@ enter.addEventListener('click',()=>{enter.classList.add('hide');main.classList.a
 const a=document.getElementById('bgm');if(a){a.currentTime=0;a.volume=.75;a.play().catch(()=>{})}
 let n=0;const titles=["tqig","t q i g","tqig.space","◯ tqig"];setInterval(()=>{document.title=titles[n++%titles.length]},900)});
 document.getElementById('soundToggle').onclick=e=>{const a=document.getElementById('bgm');if(!a)return;if(a.paused){a.play();e.target.textContent='sound: on'}else{a.pause();e.target.textContent='sound: off'}};
-const bgm=document.getElementById('bgm'),vol=document.getElementById('vol'),mute=document.getElementById('muteBtn');
-bgm.volume=.75;vol.oninput=()=>{bgm.volume=vol.value/100;bgm.muted=false;mute.textContent=vol.value==0?'🔇':'🔊'};
-mute.onclick=()=>{bgm.muted=!bgm.muted;mute.textContent=bgm.muted?'🔇':'🔊'};
-// custom cursor
-const cur=document.getElementById('cur'),ring=document.getElementById('curRing');let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
-addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
-(function follow(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(follow)})();
-document.querySelectorAll('a,button,input,#enter').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('hovering'));el.addEventListener('mouseleave',()=>ring.classList.remove('hovering'))});
+const bgm=document.getElementById('bgm'),vol=document.getElementById('vol'),mute=document.getElementById('muteBtn'),icoOn=document.getElementById('icoOn'),icoOff=document.getElementById('icoOff');
+function syncIco(){const m=bgm.muted||vol.value==0;icoOn.style.display=m?'none':'block';icoOff.style.display=m?'block':'none'}
+bgm.volume=.75;vol.oninput=()=>{bgm.volume=vol.value/100;bgm.muted=false;syncIco()};
+mute.onclick=()=>{bgm.muted=!bgm.muted;syncIco()};syncIco();
+// shooting-star cursor trail
+const cur=document.getElementById('cur');let mx=innerWidth/2,my=innerHeight/2;
+const tc=document.getElementById('trail'),tx=tc.getContext('2d');let TW,TH,parts=[];
+function trs(){TW=tc.width=innerWidth;TH=tc.height=innerHeight}trs();addEventListener('resize',trs);
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';
+for(let k=0;k<3;k++)parts.push({x:mx,y:my,vx:(Math.random()-.5)*1.6,vy:(Math.random()-.3)*1.6,life:1,s:Math.random()*2.2+.6})});
+(function tloop(){tx.clearRect(0,0,TW,TH);parts=parts.filter(o=>o.life>0);parts.forEach(o=>{o.x+=o.vx;o.y+=o.vy;o.life-=.02;tx.globalAlpha=Math.max(o.life,0);tx.fillStyle='#fff';tx.shadowColor='#fff';tx.shadowBlur=6;tx.beginPath();tx.arc(o.x,o.y,o.s*o.life,0,7);tx.fill()});tx.shadowBlur=0;requestAnimationFrame(tloop)})();
 let v=localStorage.getItem('tqig_views')||342;v=parseInt(v)+1;localStorage.setItem('tqig_views',v);document.getElementById('views').textContent=v;
 // tilt
 const card=document.getElementById('card');
