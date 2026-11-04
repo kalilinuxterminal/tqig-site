@@ -1,0 +1,6 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), usb=(self), geolocation=(self)
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' http://127.0.0.1:8766 ws://127.0.0.1:8766 http://127.0.0.1:8770 http://localhost:8770 https://tiles.openfreemap.org https://tiles.maps.eox.at https://basemap.nationalmap.gov https://photon.komoot.io https://routing.openstreetmap.de https://overpass-api.de; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'

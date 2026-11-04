@@ -1,0 +1,35 @@
+{
+  "at": "2026-10-30T01:46:44.576352+00:00",
+  "transport": "explicit authenticated private IPv4 RemotePairing",
+  "usbFallback": false,
+  "gpsReadback": false,
+  "cases": [
+    {
+      "case": "wireless_developer_session",
+      "passed": true,
+      "usbStillAttached": true,
+      "ios": "26.6"
+    },
+    {
+      "case": "wifi_coordinate_set",
+      "passed": true,
+      "virtualTarget": {
+        "lat": 28.5550254,
+        "lng": -81.7661906
+      }
+    },
+    {
+      "case": "wifi_20_second_hold",
+      "passed": true,
+      "holdRefreshAcknowledgements": 4
+    },
+    {
+      "case": "wifi_clear",
+      "passed": true,
+      "noWritesAfterClear": true,
+      "restorationVisuallyVerified": false
+    }
+  ],
+  "usbStillAttached": true,
+  "completed": true
+}

@@ -1,0 +1,105 @@
+{
+  "observation": "helper device acknowledgements only; no GPS readback",
+  "events": [
+    {
+      "state": "playing",
+      "phase": "outbound",
+      "elapsed": 7.625,
+      "phaseRemaining": 61.375,
+      "index": 7,
+      "totalFrames": 140,
+      "acknowledgedSamples": 8,
+      "trip": {
+        "outboundDuration": 69.0,
+        "stayDuration": 6.0,
+        "returnDuration": 69.0,
+        "outboundDistance": 90.98547132647015,
+        "returnDistance": 90.98547132647016,
+        "returnToStart": true,
+        "travelMode": "walking"
+      },
+      "lastAcceptedVirtualCoordinates": {
+        "lat": 40.71307682006371,
+        "lng": -74.00572194846961
+      }
+    },
+    {
+      "state": "playing",
+      "phase": "stay",
+      "elapsed": 69.11000000000058,
+      "phaseRemaining": 5.889999999999418,
+      "index": 69,
+      "totalFrames": 140,
+      "acknowledgedSamples": 70,
+      "trip": {
+        "outboundDuration": 69.0,
+        "stayDuration": 6.0,
+        "returnDuration": 69.0,
+        "outboundDistance": 90.98547132647015,
+        "returnDistance": 90.98547132647016,
+        "returnToStart": true,
+        "travelMode": "walking"
+      },
+      "lastAcceptedVirtualCoordinates": {
+        "lat": 40.712909,
+        "lng": -74.00481
+      }
+    },
+    {
+      "state": "playing",
+      "phase": "return",
+      "elapsed": 75.18800000000192,
+      "phaseRemaining": 68.81199999999808,
+      "index": 70,
+      "totalFrames": 140,
+      "acknowledgedSamples": 70,
+      "trip": {
+        "outboundDuration": 69.0,
+        "stayDuration": 6.0,
+        "returnDuration": 69.0,
+        "outboundDistance": 90.98547132647015,
+        "returnDistance": 90.98547132647016,
+        "returnToStart": true,
+        "travelMode": "walking"
+      },
+      "lastAcceptedVirtualCoordinates": {
+        "lat": 40.712909,
+        "lng": -74.00481
+      }
+    },
+    {
+      "state": "arrived",
+      "phase": "complete",
+      "elapsed": 144.0,
+      "phaseRemaining": 0,
+      "index": 139,
+      "totalFrames": 140,
+      "acknowledgedSamples": 139,
+      "trip": {
+        "outboundDuration": 69.0,
+        "stayDuration": 6.0,
+        "returnDuration": 69.0,
+        "outboundDistance": 90.98547132647015,
+        "returnDistance": 90.98547132647016,
+        "returnToStart": true,
+        "travelMode": "walking"
+      },
+      "lastAcceptedVirtualCoordinates": {
+        "lat": 40.71304,
+        "lng": -74.005786
+      }
+    }
+  ],
+  "userObservations": {
+    "movement": "observed in Apple Maps",
+    "destinationStay": "not closely observed",
+    "returnLeg": "not closely observed",
+    "afterStop": "user confirmed real location restored"
+  },
+  "cleanup": {
+    "helperSimulation": "clear_sent",
+    "journey": "stopped",
+    "session": "safely disconnected"
+  },
+  "testAreaChange": "Historical sequence used New York. All subsequent sample journeys and future device tests use Clermont, Florida."
+}

@@ -1,0 +1,3 @@
+import {Link} from 'react-router-dom';
+export function LogoMark({size=36}:{size?:number}){return <svg className="brand-mark" width={size} height={size} viewBox="0 0 48 48" fill="none" aria-hidden="true"><path className="brand-outline" d="M30 10H18a8 8 0 0 0-8 8v12a8 8 0 0 0 8 8h12a8 8 0 0 0 8-8V18a8 8 0 0 0-8-8Z" stroke="currentColor" strokeWidth="5.5"/><path className="brand-trail" d="m25 25 14 14" stroke="var(--brand-purple,#7956a0)" strokeWidth="6"/></svg>}
+export function Logo(){return <Link className="logo tqig-brand" to="/" aria-label="TQIG home"><LogoMark/><span className="brand-word">TQIG</span></Link>}

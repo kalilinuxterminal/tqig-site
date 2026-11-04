@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-31T18:20:20.843339+00:00",
+  "area": "Clermont, Florida",
+  "gpsReadback": false,
+  "cases": [
+    {
+      "case": "verified_usb",
+      "passed": true,
+      "ios": "26.6"
+    },
+    {
+      "case": "coordinate_applied",
+      "passed": true,
+      "virtualTarget": {
+        "lat": 28.5550254,
+        "lng": -81.7661906
+      }
+    },
+    {
+      "case": "hold_12_seconds",
+      "passed": true,
+      "refreshAcknowledgements": 2
+    },
+    {
+      "case": "clear",
+      "passed": true,
+      "noWritesAfterClear": true,
+      "restorationVisuallyVerified": false
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+import type {DeviceStatus} from './types';
+const configured=import.meta.env.VITE_BRIDGE_URL||'http://127.0.0.1:8766';
+export const bridgeUrl=window.location.port==='8766'?window.location.origin:configured;
+let accessToken='';
+export function setAccessToken(token:string){accessToken=token.trim()}
+export async function localSession(){if(window.location.origin===bridgeUrl){const r=await fetch(`${bridgeUrl}/api/session`,{signal:AbortSignal.timeout(5000)});if(!r.ok)throw Error('Open the local helper to authorize this browser.');accessToken=(await r.json()).token;return true}return false}
+export async function api<T=DeviceStatus>(path:string,body?:unknown):Promise<T>{const r=await fetch(`${bridgeUrl}/api/${path}`,{method:body===undefined?'GET':'POST',headers:{'X-TQIG-Token':accessToken,...(body===undefined?{}:{'Content-Type':'application/json'})},body:body===undefined?undefined:JSON.stringify(body),signal:AbortSignal.timeout(path==='connect'?85000:path==='phone-access/start'?150000:40000)});if(!r.headers.get('content-type')?.includes('application/json'))throw Error('Start the TQIG helper on this computer, then reconnect.');const data=await r.json();if(!r.ok)throw Error(typeof data.detail==='string'?data.detail:'Please check the device and try again.');return data}
+export function events(onStatus:(s:DeviceStatus)=>void,onClose:()=>void){const ws=new WebSocket(bridgeUrl.replace(/^http/,'ws')+'/api/events');ws.onopen=()=>ws.send(JSON.stringify({token:accessToken}));ws.onmessage=e=>{try{onStatus(JSON.parse(e.data))}catch{/* Ignore malformed status; a bounded HTTP refresh is the fallback. */}};ws.onclose=onClose;ws.onerror=()=>ws.close();return ws}

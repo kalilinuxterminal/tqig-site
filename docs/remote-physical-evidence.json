@@ -1,0 +1,136 @@
+{
+  "startedAt": "2026-10-30T00:02:05.819316+00:00",
+  "area": "Clermont, Florida",
+  "evidence": "Device-service acknowledgements; app GPS output is not read back.",
+  "cases": [
+    {
+      "case": "verified_usb",
+      "passed": true,
+      "ios": "26.6",
+      "build": "23G71"
+    },
+    {
+      "case": "live_access_boundaries",
+      "passed": true,
+      "invalidCoordinatesRejected": true,
+      "memberAdminRejected": true
+    },
+    {
+      "case": "stationary_applied",
+      "passed": true,
+      "virtualTarget": {
+        "lat": 28.5550254,
+        "lng": -81.7661906
+      },
+      "holdSeconds": 70
+    },
+    {
+      "case": "stationary_70_second_hold",
+      "passed": true,
+      "refreshAcknowledgements": 17,
+      "gpsReadback": false
+    },
+    {
+      "case": "stationary_clear",
+      "passed": true,
+      "restorationVisuallyVerified": false
+    },
+    {
+      "case": "driving_pause_resume",
+      "passed": true,
+      "holdRefreshes": 1,
+      "clockFrozen": true
+    },
+    {
+      "case": "driving_round_trip",
+      "passed": true,
+      "phases": [
+        "outbound",
+        "stay",
+        "return",
+        "complete"
+      ],
+      "publicTelemetryPhases": [
+        "outbound",
+        "return",
+        "stay"
+      ],
+      "movementAcknowledgements": 413,
+      "frames": 432,
+      "playbackRate": 4,
+      "trip": {
+        "outboundDuration": 256,
+        "stayDuration": 9,
+        "returnDuration": 174,
+        "outboundDistance": 1638.506032189159,
+        "returnDistance": 1285.6462650160797,
+        "returnToStart": true,
+        "travelMode": "driving"
+      },
+      "destinationHoldStable": true,
+      "finalVirtualTarget": {
+        "lat": 28.555258,
+        "lng": -81.76619
+      },
+      "gpsReadback": false
+    },
+    {
+      "case": "walking_pause_resume",
+      "passed": true,
+      "holdRefreshes": 1,
+      "clockFrozen": true
+    },
+    {
+      "case": "walking_round_trip",
+      "passed": true,
+      "phases": [
+        "outbound",
+        "stay",
+        "return",
+        "complete"
+      ],
+      "publicTelemetryPhases": [
+        "outbound",
+        "return",
+        "stay"
+      ],
+      "movementAcknowledgements": 165,
+      "frames": 166,
+      "playbackRate": 1,
+      "trip": {
+        "outboundDuration": 82,
+        "stayDuration": 6,
+        "returnDuration": 82,
+        "outboundDistance": 108.74797779189512,
+        "returnDistance": 108.74797779189512,
+        "returnToStart": true,
+        "travelMode": "walking"
+      },
+      "destinationHoldStable": true,
+      "finalVirtualTarget": {
+        "lat": 28.555186,
+        "lng": -81.766188
+      },
+      "gpsReadback": false
+    },
+    {
+      "case": "interrupt_and_restore",
+      "passed": true,
+      "noWritesAfterClear": true
+    },
+    {
+      "case": "revocation_requests_restore",
+      "passed": true,
+      "localAccessRemoved": true,
+      "clearSent": true
+    },
+    {
+      "case": "owner_home_computer_link",
+      "passed": true,
+      "clearSent": true
+    }
+  ],
+  "publicTransport": "HTTPS Cloudflare temporary account relay",
+  "completed": true,
+  "endedAt": "2026-10-30T00:09:41.815070+00:00"
+}
