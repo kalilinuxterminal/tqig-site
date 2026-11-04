@@ -4,7 +4,45 @@ import {ArrowUpRight,KeyRound,ShieldCheck,LoaderCircle} from 'lucide-react';
 import {Logo} from '../components/Logo';
 import {accountApi,type Session} from '../services/account';
 import {useAuth} from '../hooks/useAuth';
+import {staticPages} from '../services/environment';
+
+function PagesAccountEntry(){
+ const location=useLocation();
+ const signup=location.pathname.replace(/\/+$/,'')==='/signup';
+ const dashboardUrl=import.meta.env.VITE_PAGES_DASHBOARD_URL?.trim();
+ let destination:string|undefined;
+ if(dashboardUrl){
+  try{
+   const server=new URL(dashboardUrl);
+   if(server.protocol==='https:'&&server.origin!==window.location.origin){
+    const entry=new URL(signup?'/signup':'/signin',server.origin);
+    const next=new URLSearchParams(location.search).get('next')||'/remote';
+    if(next.startsWith('/')&&new URL(next,server.origin).origin===server.origin){
+     entry.searchParams.set('next',next);
+    }
+    destination=entry.href;
+   }
+  }catch{/* An invalid deployment setting leaves the setup instructions available. */}
+ }
+ return <main className="account-page">
+  <Logo/>
+  <div className="account-orb"/>
+  <section className="account-card glass">
+   <span className="eyebrow"><KeyRound size={13}/> MINKMAP DASHBOARD</span>
+   <h1>{signup?'Use your invitation.':'Open your dashboard.'}</h1>
+   {destination
+    ? <><p>Continue to the live dashboard to {signup?'create your account':'sign in'}.</p><a className="button primary full" href={destination}>Continue to dashboard <ArrowUpRight size={16}/></a></>
+    : <><p>Accounts are available on the live dashboard. Open the HTTPS link or scan the QR code from <strong>Home iPhone controls</strong> on your home PC.</p><p>On the home PC, open TQIG and choose <strong>Enable phone access</strong> to get your link.</p></>}
+   <Link className="account-switch" to="/">Back to MinkMap</Link>
+  </section>
+ </main>;
+}
+
 export default function Account(){
+ return staticPages?<PagesAccountEntry/>:<LiveAccount/>;
+}
+
+function LiveAccount(){
  const location=useLocation(),navigate=useNavigate(),auth=useAuth(),signup=location.pathname==='/signup',owner=location.pathname==='/owner/setup';
  const [name,setName]=useState(''),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[invite,setInvite]=useState(''),[remember,setRemember]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[setup,setSetup]=useState<{required:boolean;allowed:boolean;nonce:string|null}|null>(null);
  useEffect(()=>{void accountApi('auth/setup').then(setSetup).catch(()=>{})},[]);

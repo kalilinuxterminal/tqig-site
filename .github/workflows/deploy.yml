@@ -28,6 +28,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          VITE_STATIC_PAGES: '1'
+          VITE_PAGES_DASHBOARD_URL: ${{ vars.TQIG_DASHBOARD_URL }}
+      - name: Create pages for direct links and refreshes
+        run: |
+          cp dist/index.html dist/404.html
+          for route in signin signup owner/setup preview dashboard overview settings snapscore remote phone account admin app app/walk app/drive app/locations app/devices app/settings privacy terms support; do
+            mkdir -p "dist/$route"
+            cp dist/index.html "dist/$route/index.html"
+          done
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
