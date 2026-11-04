@@ -1,10 +1,23 @@
+FROM node:24-bookworm-slim AS frontend
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY index.html tsconfig.json vite.config.ts ./
+COPY public ./public
+COPY src ./src
+RUN npm run build
+
 FROM python:3.12-slim
 WORKDIR /app
 COPY backend/requirements-portal.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt && useradd --system --uid 10001 tqig && mkdir /data && chown tqig /data
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends gosu \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --no-cache-dir -r requirements.txt \
+    && useradd --system --uid 10001 --create-home --shell /bin/bash tqig
 COPY backend /app/backend
-COPY dist /app/dist
-ENV TQIG_LOCAL_PREVIEW=0 TQIG_PUBLIC_ORIGIN=https://tqig.space TQIG_PORTAL_BIND=0.0.0.0 TQIG_PORTAL_PORT=8770 TQIG_DATA_DIR=/data
-USER tqig
+COPY --from=frontend /app/dist /app/dist
+ENV TQIG_LOCAL_PREVIEW=0 TQIG_PUBLIC_ORIGIN=https://tqig.space TQIG_PORTAL_BIND=0.0.0.0 TQIG_PORTAL_PORT=8770 TQIG_DATA_DIR=/data/accounts
 EXPOSE 8770
+ENTRYPOINT ["/bin/sh", "-c", "install -d -m 0700 -o tqig -g tqig \"$TQIG_DATA_DIR\" && exec gosu tqig \"$@\"", "tqig"]
 CMD ["python","-m","backend.portal"]

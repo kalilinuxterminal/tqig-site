@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: tqig-account-relay
+    runtime: docker
+    dockerfilePath: ./Dockerfile.portal
+    plan: starter
+    region: virginia
+    numInstances: 1
+    autoDeployTrigger: checksPass
+    domains:
+      - tqig.space
+    disk:
+      name: tqig-accounts
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: PORT
+        value: '8770'
+      - key: TQIG_PUBLIC_ORIGIN
+        value: https://tqig.space

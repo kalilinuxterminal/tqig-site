@@ -1,4 +1,5 @@
 node_modules
+dist
 .runtime
 .venv
 .env.local

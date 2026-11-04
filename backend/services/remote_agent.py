@@ -15,7 +15,8 @@ class PhoneChangedError(RuntimeError):
 class RemoteAgent:
     def __init__(self, snapshot, execute, path=None, portal_url=None):
         self.snapshot,self.execute=snapshot,execute
-        self.path=Path(path or Path(__file__).resolve().parents[2]/'.runtime'/'remote-agent.json')
+        default_path = Path(__file__).resolve().parents[2]/'.runtime'/'remote-agent.json'
+        self.path = Path(path or os.getenv('TQIG_AGENT_STATE_FILE') or default_path)
         self.portal_url=(portal_url or os.getenv('TQIG_PORTAL_URL','http://127.0.0.1:8770')).rstrip('/')
         if not (self.portal_url.startswith('https://') or self.portal_url in {'http://127.0.0.1:8770','http://localhost:8770'}):
             raise ValueError('The account server must use HTTPS or the local preview address.')
