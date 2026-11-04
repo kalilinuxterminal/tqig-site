@@ -24,10 +24,11 @@ jobs:
       - run: docker build -f Dockerfile.portal -t tqig-portal:check .
       - name: Check the production dashboard and account boundary
         run: |
+          set -euo pipefail
           docker run -d --name tqig-portal -p 127.0.0.1:18770:8770 tqig-portal:check
-          trap 'docker rm -f tqig-portal >/dev/null' EXIT
+          trap 'if [ "$?" -ne 0 ]; then docker logs tqig-portal; fi; docker rm -f tqig-portal >/dev/null' EXIT
           base=http://127.0.0.1:18770
-          curl -fsS --retry 10 --retry-connrefused -H 'Host: tqig.space' "$base/api/portal/health" |
+          curl -fsS --retry 12 --retry-all-errors --retry-delay 1 --max-time 3 -H 'Host: tqig.space' "$base/api/portal/health" |
             jq -e '.localPreview == false'
           curl -fsS -H 'Host: tqig.space' "$base/signin" > /tmp/tqig-signin.html
           grep -q '/assets/index-' /tmp/tqig-signin.html
